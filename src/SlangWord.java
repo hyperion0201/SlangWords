@@ -81,6 +81,82 @@ public class SlangWord {
             displayList(definitionMap.get(key));
         }
     }
+    private List<String> _buildSlangsByDefinition(String def, String slang) {
+        var list = new ArrayList<String>();
+        // Find a def-slang hashmap exist.
+        var existDefHash = definitionMap.get(def);
+        if (existDefHash == null) {
+            // mean this is the first time handle this def word.
+            list.add(slang);
+            return list;
+        } else {
+            existDefHash.add(slang);
+            return existDefHash;
+        }
+    }
+
+    private List<String> _queryAllDefinitionsBySlang(String query) {
+        // Search by slang required 100% accurracy in keywords.
+        return slangMap.get(query);
+    }
+
+    public void SearchBySlang(String query) {
+        _pushHistory(query);
+        var defFound = _queryAllDefinitionsBySlang(query);
+        if (defFound != null) {
+            System.out.print("Found " + query + " with definitions: ");
+            displayList(defFound);
+        } else {
+            System.out.println("No definition found with slang word provided.");
+        }
+    }
+
+    private List<String> _queryAllSlangsByDefinition(String query) {
+        // Not same as slang search, search by definition doesn't require accuracy in keyword.
+        // So, if any definition includes the keyword, get em.
+
+        // Gather all possible def words that matched the keyword
+        var defForSearching = new ArrayList<String>();
+        for (String key : definitionMap.keySet()) {
+            if (key.contains(query)) {
+                defForSearching.add(key);
+            }
+        }
+
+        // Performing search.
+        var slangs = new ArrayList<String>();
+        for (String def : defForSearching) {
+            if (definitionMap.get(def) != null) {
+                slangs.addAll(definitionMap.get(def));
+            }
+        }
+
+        return slangs;
+    }
+
+    public void SearchByDefinition(String query) {
+        _pushHistory(query);
+        var slangFound = _queryAllSlangsByDefinition(query);
+        if (slangFound.size() == 0) {
+            System.out.println("No slang found with word provided.");
+        } else {
+            System.out.print("Found " + slangFound.size() + " slang word(s) matched the keyword : ");
+            displayList(slangFound);
+        }
+    }
+    
+    private void displayList(List<String> list) {
+        for (String item : list) {
+            System.out.print(item + ", ");
+
+        }
+    }
+
+    private void _trimingSpaces(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].trim();
+        }
+    }
 
 
 }
