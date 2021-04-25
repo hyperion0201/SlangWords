@@ -144,7 +144,7 @@ public class SlangWord {
             displayList(slangFound);
         }
     }
-    
+
     private void displayList(List<String> list) {
         for (String item : list) {
             System.out.print(item + ", ");
@@ -158,5 +158,78 @@ public class SlangWord {
         }
     }
 
+    private void _pushHistory(String value) {
+        searchedMap.add(value);
+    }
+
+    public void displayHistory() {
+        System.out.println("======= SEARCH HISTORY ========");
+        for (String item : searchedMap) {
+            System.out.print(item + ", ");
+        }
+    }
+    
+    public boolean isSlangFound(String slang) {
+        return slangMap.get(slang) != null ? true : false;
+    }
+
+    private void _onCreateSlangWord(String slang, String def, Boolean isOverride) throws Exception {
+        var slangFound = isSlangFound(slang);
+        if (slangFound) {
+            if (!isOverride) {
+                // mean slang should be one or more definitions
+                var currentDef = slangMap.get(slang);
+                List<String> newDef =  new ArrayList<String>(currentDef);
+                newDef.add(def);
+                slangMap.replace(slang, newDef);
+            } else {
+                // override slang
+                var newDef = new ArrayList<String>();
+                newDef.add(def);
+                slangMap.replace(slang, newDef);
+            }
+        }
+        else {
+            var newDef = new ArrayList<String>();
+            newDef.add(def);
+            slangMap.put(slang, newDef);
+        }
+    }
+
+    public void addNewSlangWord(String slang, String def, Boolean isOverride) {
+        try {
+            _onCreateSlangWord(slang, def, isOverride);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void _onEditSlangWord(String slang, String newSlang) throws Exception {
+        var slangDef = slangMap.get(slang);
+        slangMap.put(newSlang, slangDef);
+        slangMap.remove(slang);
+    }
+
+    public void editSlangWord(String slang, String newSlang) {
+        try {
+            _onEditSlangWord(slang, newSlang);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void _onDeleteSlangWord(String slang) throws Exception {
+        slangMap.remove(slang);
+    }
+
+    public void deleteSlangWord(String slang) {
+        try {
+            _onDeleteSlangWord(slang);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
