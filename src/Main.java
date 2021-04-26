@@ -137,7 +137,19 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                   
+                    case 7: {
+                        clearScreen();
+                        slang.reloadSession();
+                        System.out.println("Slang reset successfully.");
+                        System.in.read();
+                        break;
+                    }
+                    case 8: {
+                        clearScreen();
+                        slang.getRandomSlangWord();
+                        System.in.read();
+                        break;
+                    }
                     default: {
                         break;
 

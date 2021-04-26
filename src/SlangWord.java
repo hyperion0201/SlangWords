@@ -231,5 +231,43 @@ public class SlangWord {
             e.printStackTrace();
         }
     }
+    private String _getRandomSlangKey() {
+        Random r = new Random();
+        var keySet = new ArrayList<String>(slangMap.keySet());
+        return keySet.get(r.nextInt(keySet.size()));
+    }
+
+    private String _getRandomDefinitionKey() {
+        Random r = new Random();
+        var keySet = new ArrayList<String>(definitionMap.keySet());
+        return keySet.get(r.nextInt(keySet.size()));
+    }
+
+    public void getRandomSlangWord() {
+        var randomKey = _getRandomSlangKey();
+        var def = slangMap.get(randomKey);
+        if (randomKey != null) {
+            System.out.println("Random slang word: ");
+            System.out.println("Slang : " + randomKey);
+            System.out.print("Definition : ");
+            displayList(def);
+        } else {
+            System.out.println("No slang word found.");
+        }
+    }
+    
+    private void _onReloadSession() {
+        slangMap = new HashMap<String, List<String>>();
+        definitionMap = new HashMap<String, List<String>>();
+        try {
+            _initializeSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reloadSession() {
+        _onReloadSession();
+    }
 
 }
