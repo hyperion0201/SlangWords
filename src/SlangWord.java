@@ -269,5 +269,42 @@ public class SlangWord {
     public void reloadSession() {
         _onReloadSession();
     }
+    private void _onSaveSession() throws Exception {
+        FileWriter writer = new FileWriter(DATA_PATH);
+        BufferedWriter bufferWr = new BufferedWriter(writer);
+        for (String key : slangMap.keySet()) {
+            var defs = slangMap.get(key);
+            bufferWr.write(key);
+            bufferWr.write("`");
+            for (String def : defs) {
+                bufferWr.write(def);
+                bufferWr.write("|");
+            }
+            bufferWr.newLine();
+        }
+        bufferWr.close();
+        writer.close();
+    }
 
+    private void _onSaveHistory() throws Exception {
+        FileWriter writer = new FileWriter(SEARCH_HISTORY_PATH);
+        BufferedWriter bufferWr = new BufferedWriter(writer);
+        for (String item : searchedMap) {
+            bufferWr.write(item);
+            bufferWr.newLine();
+        }
+        bufferWr.close();
+        writer.close();
+    }
+
+    public void saveSession() {
+        try {
+            _onSaveSession();
+            _onSaveHistory();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

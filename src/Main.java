@@ -150,6 +150,25 @@ public class Main {
                         System.in.read();
                         break;
                     }
+                    case 0: {
+                        System.out.print("Save all changes? (Y)/(N) : ");
+                        var save = scanner.next();
+                        switch (save.toLowerCase()) {
+                            case "y": {
+                                slang.saveSession();
+                                System.out.println("Saved.");
+                                break;
+                            }
+                            case "n": {
+                                break;
+                            }
+                            default:
+                                break;
+                        }
+                        System.out.println("Bye");
+                        scanner.close();
+                        return;
+                    }
                     default: {
                         break;
 
