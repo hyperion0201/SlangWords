@@ -306,5 +306,78 @@ public class SlangWord {
             e.printStackTrace();
         }
     }
+    private String _getCorrectAnswerForSlang(String slang) {
+        return slangMap.get(slang).get(0);
+    }
     
+    public String getCorrectAnswerForSlang(String slang) {
+        return _getCorrectAnswerForSlang(slang);
+    }
+
+    private String _getCorrectAnswerForDefinition(String def) {
+        return definitionMap.get(def).get(0);
+    }
+    
+    public String getCorrectAnswerForDefinition(String def) {
+        return _getCorrectAnswerForDefinition(def);
+    }
+
+    private List<String> _buildPossibleAnswersForSlang(String slang) {
+
+        // get 3 random answer
+        var ans = new ArrayList<String>();
+        ans.add(_getCorrectAnswerForSlang(slang));
+        while (ans.size() < 4) {
+            var nextSlang = _getRandomSlangKey();
+            if (ans.contains(nextSlang))
+                continue;
+            ans.add(_getCorrectAnswerForSlang(nextSlang));
+        }
+        Collections.shuffle(ans);
+        return ans;
+    }
+    private List<String> _buildPossibleAnswersForDefinition(String def) {
+
+        // get 3 random answer
+        var ans = new ArrayList<String>();
+        ans.add(_getCorrectAnswerForDefinition(def));
+        while (ans.size() < 4) {
+            var nextDef = _getRandomDefinitionKey();
+            if (ans.contains(nextDef))
+                continue;
+            ans.add(_getCorrectAnswerForDefinition(nextDef));
+        }
+        Collections.shuffle(ans);
+        return ans;
+    }
+
+    public void printAnswers(List<String> answers) {
+        for (int i = 1; i <= answers.size(); i++) {
+            System.out.println(i + ". " + answers.get(i-1));
+        }
+    }
+    
+    public List<String> generateSlangPossibleAnswers(String slang) {
+        return _buildPossibleAnswersForSlang(slang);
+    }
+    public String generateRandomSlangQuestion() {
+        return _getRandomSlangKey();
+    }
+
+    public boolean isSlangAnswerCorrect(String slang, String answer) {
+        var correct = _getCorrectAnswerForSlang(slang);
+        return correct == answer;
+    }
+    public List<String> generateDefinitionPossibleAnswers(String def) {
+        return _buildPossibleAnswersForDefinition(def);
+    }
+    public String generateRandomDefinitionQuestion() {
+        return _getRandomDefinitionKey();
+    }
+
+    public boolean isDefinitionAnswerCorrect(String def, String answer) {
+        var correct = _getCorrectAnswerForDefinition(def);
+        return correct == answer;
+    }
+
 }
