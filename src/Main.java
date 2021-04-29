@@ -150,6 +150,42 @@ public class Main {
                         System.in.read();
                         break;
                     }
+                    case 9: {
+                        clearScreen();
+                        var randomSlang = slang.generateRandomSlangQuestion();
+                        var possibleAnswers = slang.generateSlangPossibleAnswers(randomSlang);
+                        System.out.println("Question : " + randomSlang + " mean ?");
+                        slang.printAnswers(possibleAnswers);
+                        System.out.print("Type 1, 2, 3, 4 as the answer: ");
+                        var answer = scanner.nextInt();
+                        var isCorrect = slang.isSlangAnswerCorrect(randomSlang, possibleAnswers.get(answer - 1));
+                        if (isCorrect) {
+                            System.out.println("The answer is correct !");
+                        } else {
+                            System.out.println("The answer is incorrect. The correct answer is : "
+                                    + slang.getCorrectAnswerForSlang(randomSlang));
+                        }
+                        System.in.read();
+                        break;
+                    }
+                    case 10: {
+                        clearScreen();
+                        var randomDef = slang.generateRandomDefinitionQuestion();
+                        var possibleAnswers = slang.generateDefinitionPossibleAnswers(randomDef);
+                        System.out.println("Question : Which slang word below means " + randomDef + "  ?");
+                        slang.printAnswers(possibleAnswers);
+                        System.out.print("Type 1, 2, 3, 4 as the answer: ");
+                        var answer = scanner.nextInt();
+                        var isCorrect = slang.isDefinitionAnswerCorrect(randomDef, possibleAnswers.get(answer - 1));
+                        if (isCorrect) {
+                            System.out.println("The answer is correct !");
+                        }
+                        else {
+                            System.out.println("The answer is incorrect. The correct answer is : " + slang.getCorrectAnswerForDefinition(randomDef));
+                        }
+                        System.in.read();
+                        break;
+                    }
                     case 0: {
                         System.out.print("Save all changes? (Y)/(N) : ");
                         var save = scanner.next();
