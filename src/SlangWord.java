@@ -22,6 +22,7 @@ public class SlangWord {
         definitionMap = new HashMap<String, List<String>>();
         searchedMap = new ArrayList<String>();
     }
+
     private void _loadHistorySession() throws Exception {
         try {
             var fr = new FileReader(SEARCH_HISTORY_PATH);
@@ -81,6 +82,21 @@ public class SlangWord {
             displayList(definitionMap.get(key));
         }
     }
+
+
+    private void displayList(List<String> list) {
+        for (String item : list) {
+            System.out.print(item + ", ");
+
+        }
+    }
+
+    private void _trimingSpaces(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].trim();
+        }
+    }
+
     private List<String> _buildSlangsByDefinition(String def, String slang) {
         var list = new ArrayList<String>();
         // Find a def-slang hashmap exist.
@@ -142,19 +158,6 @@ public class SlangWord {
         } else {
             System.out.print("Found " + slangFound.size() + " slang word(s) matched the keyword : ");
             displayList(slangFound);
-        }
-    }
-
-    private void displayList(List<String> list) {
-        for (String item : list) {
-            System.out.print(item + ", ");
-
-        }
-    }
-
-    private void _trimingSpaces(String[] words) {
-        for (int i = 0; i < words.length; i++) {
-            words[i] = words[i].trim();
         }
     }
 
@@ -231,6 +234,7 @@ public class SlangWord {
             e.printStackTrace();
         }
     }
+
     private String _getRandomSlangKey() {
         Random r = new Random();
         var keySet = new ArrayList<String>(slangMap.keySet());
@@ -256,56 +260,6 @@ public class SlangWord {
         }
     }
     
-    private void _onReloadSession() {
-        slangMap = new HashMap<String, List<String>>();
-        definitionMap = new HashMap<String, List<String>>();
-        try {
-            _initializeSession();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void reloadSession() {
-        _onReloadSession();
-    }
-    private void _onSaveSession() throws Exception {
-        FileWriter writer = new FileWriter(DATA_PATH);
-        BufferedWriter bufferWr = new BufferedWriter(writer);
-        for (String key : slangMap.keySet()) {
-            var defs = slangMap.get(key);
-            bufferWr.write(key);
-            bufferWr.write("`");
-            for (String def : defs) {
-                bufferWr.write(def);
-                bufferWr.write("|");
-            }
-            bufferWr.newLine();
-        }
-        bufferWr.close();
-        writer.close();
-    }
-
-    private void _onSaveHistory() throws Exception {
-        FileWriter writer = new FileWriter(SEARCH_HISTORY_PATH);
-        BufferedWriter bufferWr = new BufferedWriter(writer);
-        for (String item : searchedMap) {
-            bufferWr.write(item);
-            bufferWr.newLine();
-        }
-        bufferWr.close();
-        writer.close();
-    }
-
-    public void saveSession() {
-        try {
-            _onSaveSession();
-            _onSaveHistory();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     private String _getCorrectAnswerForSlang(String slang) {
         return slangMap.get(slang).get(0);
     }
@@ -380,4 +334,56 @@ public class SlangWord {
         return correct == answer;
     }
 
+    private void _onReloadSession() {
+        slangMap = new HashMap<String, List<String>>();
+        definitionMap = new HashMap<String, List<String>>();
+        try {
+            _initializeSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reloadSession() {
+        _onReloadSession();
+    }
+
+    private void _onSaveSession() throws Exception {
+        FileWriter writer = new FileWriter(DATA_PATH);
+        BufferedWriter bufferWr = new BufferedWriter(writer);
+        for (String key : slangMap.keySet()) {
+            var defs = slangMap.get(key);
+            bufferWr.write(key);
+            bufferWr.write("`");
+            for (String def : defs) {
+                bufferWr.write(def);
+                bufferWr.write("|");
+            }
+            bufferWr.newLine();
+        }
+        bufferWr.close();
+        writer.close();
+    }
+
+    private void _onSaveHistory() throws Exception {
+        FileWriter writer = new FileWriter(SEARCH_HISTORY_PATH);
+        BufferedWriter bufferWr = new BufferedWriter(writer);
+        for (String item : searchedMap) {
+            bufferWr.write(item);
+            bufferWr.newLine();
+        }
+        bufferWr.close();
+        writer.close();
+    }
+
+    public void saveSession() {
+        try {
+            _onSaveSession();
+            _onSaveHistory();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
