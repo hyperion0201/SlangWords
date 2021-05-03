@@ -13,7 +13,7 @@ public class Main {
         try {
             slang._initializeSession();
             while (true) {
-
+                clearScreen();
                 System.out.println("================================");
                 System.out.println("MAIN MENU :");
                 System.out.println("1. Search by slang word");
@@ -30,9 +30,9 @@ public class Main {
                 System.out.println("================================");
 
                 System.out.print("==> Select option : ");
-                int parentOption = scanner.nextInt();
+                var parentOption = scanner.nextLine();
                 switch (parentOption) {
-                    case 1: {
+                    case "1": {
                         clearScreen();
                         System.out.print("Input slang word: ");
                         var query = scanner.next();
@@ -40,7 +40,7 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 2: {
+                    case "2": {
                         clearScreen();
                         System.out.print("Input definition keyword: ");
                         var query = scanner.next();
@@ -48,13 +48,13 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 3: {
+                    case "3": {
                         clearScreen();
                         slang.displayHistory();
                         System.in.read();
                         break;
                     }
-                    case 4: {
+                    case "4": {
                         clearScreen();
                         System.out.print("Input new slang to add : ");
                         var slangToAdd = scanner.next();
@@ -95,7 +95,7 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 5: {
+                    case "5": {
                         clearScreen();
                         System.out.print("Input slang to edit: ");
                         var slangToEdit = scanner.next();
@@ -111,7 +111,7 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 6: {
+                    case "6": {
                         clearScreen();
                         System.out.print("Input slang to delete: ");
                         var slangToDelete = scanner.next();
@@ -139,20 +139,20 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 7: {
+                    case "7": {
                         clearScreen();
                         slang.reloadSession();
                         System.out.println("Slang reset successfully.");
                         System.in.read();
                         break;
                     }
-                    case 8: {
+                    case "8": {
                         clearScreen();
                         slang.getRandomSlangWord();
                         System.in.read();
                         break;
                     }
-                    case 9: {
+                    case "9": {
                         clearScreen();
                         var randomSlang = slang.generateRandomSlangQuestion();
                         var possibleAnswers = slang.generateSlangPossibleAnswers(randomSlang);
@@ -170,7 +170,7 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 10: {
+                    case "10": {
                         clearScreen();
                         var randomDef = slang.generateRandomDefinitionQuestion();
                         var possibleAnswers = slang.generateDefinitionPossibleAnswers(randomDef);
@@ -188,7 +188,7 @@ public class Main {
                         System.in.read();
                         break;
                     }
-                    case 0: {
+                    case "0": {
                         System.out.print("Save all changes? (Y)/(N) : ");
                         var save = scanner.next();
                         switch (save.toLowerCase()) {
@@ -208,14 +208,14 @@ public class Main {
                         return;
                     }
                     default: {
+                        System.out.println("Mismatch option, please try again.");
                         break;
-
                     }
                 }
             }
         }
         catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Mismatch option or something error.");
             return;
         }  
     }
