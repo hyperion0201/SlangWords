@@ -105,6 +105,7 @@ public class Main {
                             System.out.print("Input new value for this slang: ");
                             var newSlang = scanner.next();
                             slang.editSlangWord(slangToEdit, newSlang);
+                            System.out.println("Slang edited successfully.");
                         }
                         System.in.read();
                         break;
